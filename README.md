@@ -3,7 +3,7 @@
 ### Postgresql
 Running postgresql in docker container
 
- docker container ls ( -a - include stopped containers )
+- docker container ls ( -a - include stopped containers )
  docker container run -d --name=pg -p 5431:5432 -e POSTGRES_PASSWORD=secret -e PGDATA=/pgdata -v /Users/alexeyivanov/Work/Test/postgres_docker/pgdata:/pgdata postgres:11.4 (-p <host machine free port>:<container port>)
 ===> pgdata folder contains postgres files
  psql -h localhost -p 5431 -U postgres (password would be 'secret', note the port 5431, not 5432)
