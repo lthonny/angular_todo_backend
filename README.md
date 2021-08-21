@@ -1,6 +1,5 @@
 # angular_postgres
 
-### Postgresql
 Running postgresql in docker container
 -------------------------------------------------
 - `docker container ls` ( -a - include stopped containers )
