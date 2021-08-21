@@ -1,7 +1,7 @@
 # angular_postgres
 
 Running postgresql in docker container
-*****
+-------
 - `docker container ls` ( -a - include stopped containers )
 - `docker container run -d --name=pg -p 5431:5432 -e POSTGRES_PASSWORD=secret -e PGDATA=/pgdata -v /Users/alexeyivanov/Work/Test/postgres_docker/pgdata:/pgdata postgres` (-p <host machine free port>:<container port>)
 ===> pgdata folder contains postgres files
