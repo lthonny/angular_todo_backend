@@ -11,3 +11,9 @@ Running postgresql in docker container
 - `nmp run db:migrate` ==> create tables inside container
 - `docker container stop pg` ==> stops postgres
 - `docker container start pg` ===> starts pg (note that the data still exists)
+  
+  
+  
+  
+  
+  <script>asdasd</script>
