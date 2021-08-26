@@ -1,27 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-const getTask = require('./../backend/controllers/getTask');
-const allTasks = require('./../backend/controllers/allTasks');
-const addTask = require('./../backend/controllers/addTask');
-const editTask = require('./../backend/controllers/editTask');
-const deleteTask = require('./../backend/controllers/deleteTask');
-const order = require('./../backend/controllers/order');
-const registration = require('./../backend/controllers/registration');
+const model = require('./../backend/controllers/model-postgresql');
 
-router.get('/tasks/:id', getTask);
-router.get('/tasks', allTasks);
-router.post('/tasks', addTask);
-router.post('/order', order);
-router.post('/registration', registration);
+const auth = require('./../backend/controllers/authController');
+const validateAuth = require('../middlewares/auth');
+const authorize = require('../middlewares/authorize');
 
 
-router.put('/tasks/:id', editTask);
+router.post('/api/auth/sign_up', validateAuth, auth.signUp);
+router.post('/api/auth/sign_in', auth.signIn);
 
-
-router.delete('/tasks/:id', deleteTask);
-
-
-// router.post('')
+router.post('/api/tasks', authorize, model.create);
+router.get('/api/tasks', authorize, model.fetchAll);
+router.get('/api/tasks/:id', authorize, model.fetchOne);
+router.put('/api/tasks/:id', authorize, model.update);
+router.delete('/api/tasks/:id', authorize, model.delete);
 
 module.exports = router;
