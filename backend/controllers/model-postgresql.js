@@ -5,10 +5,9 @@ const ModelPostgresql = {
   async create({ body, decoded }, res, next) {
     try {
       const { title, text, status } = body;
-      const { user_id } = decoded;
-      console.log(title)
+      const { user_id, iat } = decoded;
       const todo = await Task.create({ title, text, status, user_id });
-      return res.status(201).send(todo);
+      return res.status(201).send({ iat, todo });
     } catch (e) {
       return next(new Error(e));
     }
@@ -31,7 +30,7 @@ const ModelPostgresql = {
   async fetchAll({ decoded }, res, next) {
     try {
       const myTodos = await Task.findAll({
-        where: { user_id: decoded.user_id }
+        where: { user_id: decoded.user_id, iat }
       });
       return res.status(200).send(myTodos);
     } catch (e) {

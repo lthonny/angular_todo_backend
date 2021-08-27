@@ -2,8 +2,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 require("dotenv").config();
 
+
 const jwtToken = {
   createToken({ id, email }) {
+    // console.log(await jwt.decode)
     return token = jwt.sign({ user_id: id, email }, process.env.JWT_SECRET, { expiresIn: '24h' });
   },
 

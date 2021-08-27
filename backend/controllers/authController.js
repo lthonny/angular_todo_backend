@@ -24,6 +24,9 @@ const auth = {
       if (user && comparePassword(password, user.password)) {
         const { name, id } = user;
         const token = jwtToken.createToken(user);
+
+        console.log(req.decoded)
+
         return res.status(200).send({ token, user: { id, name, email } });
       }
       return res.status(400).send({ error: 'invalid email/password combination ' });
