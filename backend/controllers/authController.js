@@ -25,9 +25,11 @@ const auth = {
         const { name, id } = user;
         const token = jwtToken.createToken(user);
 
-        console.log(req.decoded)
-
-        return res.status(200).send({ token, user: { id, name, email } });
+        // console.log(token)
+        const expiresIn = jwtToken.veriFyToken(token).iat;
+        // console.log(jwtToken.veriFyToken(token))
+        // return res.status(200).send({ token, user: { id, name, email } });
+        return res.status(200).send({ token, expiresIn });
       }
       return res.status(400).send({ error: 'invalid email/password combination ' });
     } catch (e) {

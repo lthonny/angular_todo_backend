@@ -5,12 +5,17 @@ require("dotenv").config();
 
 const jwtToken = {
   createToken({ id, email }) {
-    // console.log(await jwt.decode)
-    return token = jwt.sign({ user_id: id, email }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const accessToken = jwt.sign({ user_id: id, email }, process.env.JWT_ACCESS_SECRET, { expiresIn: '30m' });
+    // const refreshToken = jwt.sign({ user_id: id, email }, process.env.JWT_REFRESH_TOKEN, { expiresIn: '30d' });
+    return accessToken
+    // {
+    // accessToken
+    // refreshToken
+    // }
   },
 
   veriFyToken(token) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET, { expiresIn: '24h' });
     return decoded;
   },
 };

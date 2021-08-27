@@ -5,10 +5,12 @@ const app = express();
 
 const routes = require('./routes/routes.js');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 app.use(cors());
 app.use(express.json());
+app.use(cookieParser())
 app.use(routes);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
