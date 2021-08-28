@@ -7,7 +7,7 @@ module.exports = {
       type: Sequelize.INTEGER
     },
     refreshToken: {
-      type: Sequelize.STRING
+      type: Sequelize.TEXT
     },
     user_id: {
       type: Sequelize.INTEGER,

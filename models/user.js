@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'tasks',
       foreignKey: 'user_id',
     });
+    // User.hasMany(models.RefreshToken, {
+    //   as: 'refreshToken',
+    //   foreignKey: 'user_id',
+    // });
   };
   return User;
 };

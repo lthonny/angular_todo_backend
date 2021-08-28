@@ -1,12 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const model = require('./../backend/controllers/model-postgresql');
-
-const auth = require('./../backend/controllers/authController');
-const validateAuth = require('../middlewares/auth');
-const authorize = require('../middlewares/authorize');
-
+const { body } = require('express-validator');
 
 // router.post('/api/auth/sign_up', validateAuth, auth.signUp);
 // router.post('/api/auth/sign_in', auth.signIn);
@@ -18,11 +13,14 @@ const authorize = require('../middlewares/authorize');
 // router.delete('/api/tasks/:id', authorize, model.delete);
 
 
-const userController = require('../backend/controllers/userController');
+const userController = require('../controllers/userController');
 
-router.post('/registration', userController.registration);
-// router.post('/login', userController.registration);
-// router.get('/active/:link', userController.activate);
+router.post('/sign_up',
+  body('email').isEmail(),
+  body('password').isLength({ min: 6, max: 32 }),
+  userController.sign_up);
+router.post('/sign_in', userController.sign_in);
+// router.post('/logout', userController.logout);
 // router.get('/refresh', userController.refresh);
 // router.get('/tasks', userController.getUsers);
 
