@@ -38,10 +38,8 @@ class TokenService {
     const tokenData = await TokenModel.findOne({ where: { user_id } });
 
     if (tokenData) {
-      console.log('tokenData', tokenData.refreshToken);
-
-      // tokenData.refreshToken = refreshToken;
-      // return tokenData.save();
+      tokenData.refreshToken = refreshToken;
+      return tokenData.save();
     }
 
     const token = await TokenModel.create({ refreshToken, user_id });
