@@ -1,7 +1,9 @@
-const models = require("../../models/index");
+const models = require("../models/index");
 const User = models.User;
+const UserDto = require('../dtos/user-dto');
+const tokenService = require('../service/token-service');
 
-const { hashPassword, jwtToken, comparePassword } = require('../../utils/index');
+const { hashPassword, jwtToken, comparePassword } = require('../utils/index');
 
 const auth = {
   async signUp(req, res, next) {
@@ -9,9 +11,10 @@ const auth = {
       const { name, email, password } = req.body;
       const hash = hashPassword(password);
       const user = await User.create({ name, email, password: hash });
-      const token = jwtToken.createToken(user);
-      const { id } = user;
-      return res.status(201).send({ token, user: { id, name, email } });
+      // const token = jwtToken.createToken(user);
+      const userDto = new UserDto(user);
+      const tokens = tokenService.generateTokens({ ...user });
+      return res.status(201).send({ tokens, user: userDto });
     } catch (e) {
       return next(new Error(e));
     }
