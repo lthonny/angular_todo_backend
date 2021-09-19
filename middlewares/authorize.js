@@ -1,4 +1,4 @@
-const models = require("./.././models");
+const models = require("./.././models/index");
 const User = models.User;
 
 const jwt = require('jsonwebtoken');
@@ -15,8 +15,7 @@ const authorize = (req, res, next) => {
       return res.status(401).send({ error });
     }
     req.decoded = decoded;
-    console.log(decoded);
-    return User.findByPk(decoded.user_id)
+    return User.findByPk(decoded.id)
       .then((user) => {
         if (!user) {
           return res.status(401).send({ error: 'User does not exist' });

@@ -1,4 +1,5 @@
 pgdata/
+pgangular/
 .env
 .idea/
 node_modules/

@@ -5,51 +5,27 @@ const { body } = require('express-validator');
 
 const authorize = require('../middlewares/authorize');
 
-// router.post('/api/auth/sign_up', validateAuth, auth.signUp);
-// router.post('/api/auth/sign_in', auth.signIn);
-
-// router.post('/api/tasks', authorize, model.create);
-// router.get('/api/tasks', authorize, model.fetchAll);
-// router.get('/api/tasks/:id', authorize, model.fetchOne);
-// router.put('/api/tasks/:id', authorize, model.update);
-// router.delete('/api/tasks/:id', authorize, model.delete);
-
+const authMiddleware = require('../middlewares/auth-middleware');
 
 const userController = require('../controllers/userController');
-const tasksControlle = require('../controllers/tasksController');
+const modelPostgres = require('../controllers/model-postgresql');
 
-router.post('/sign_up',
+router.post('/api/sign_up',
   body('email').isEmail(),
   body('password').isLength({ min: 6, max: 32 }),
   userController.sign_up);
-router.post('/sign_in', userController.sign_in);
-// router.post('/logout', userController.logout);
-// router.get('/refresh', userController.refresh);
-// router.get('/tasks', userController.getUsers);
+router.post('/api/sign_in', userController.sign_in);
+router.post('/api/logout', userController.logout);
+router.get('/api/refresh', userController.refresh);
+router.get('/api/users', authMiddleware, userController.getUsers);
 
 
-router.post('/api/tasks', authorize, tasksControlle.create);
+router.post('/api/create', authorize, modelPostgres.create);
+router.get('/api/fetchOne/:id', authorize, modelPostgres.fetchOne);
+router.get('/api/fetchAll', authorize, modelPostgres.fetchAll);
+router.put('/api/update/:id', authorize, modelPostgres.update);
+router.delete('/api/delete/:id', authorize, modelPostgres.delete);
 
-
-
-
-
-
-const model = require('./../controllers/model-postgresql');
-
-// const authorize = require('../middlewares/authorize');
-const tasksController = require('../controllers/tasksController');
-const validateAuth = require('../middlewares/auth');
-const auth = require('../controllers/authController');
-
-router.post('/api/auth/sign_up', validateAuth, auth.signUp);
-router.post('/api/auth/sign_in', auth.signIn);
-
-router.post('/api/tasks', authorize, model.create);
-// router.get('/api/tasks', authorize, model.fetchAll);
-// router.get('/api/tasks/:id', authorize, model.fetchOne);
-// router.put('/api/tasks/:id', authorize, model.update);
-// router.delete('/api/tasks/:id', authorize, model.delete);
-
+router.get('/api/isauth', authorize, modelPostgres.isauth);
 
 module.exports = router;

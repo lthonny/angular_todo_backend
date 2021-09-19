@@ -1,29 +1,29 @@
 require("dotenv").config();
-const { DB_HOST, DB_USERNAME, DB_PASSWORD } = process.env;
+const { DB_USERNAME, DB_PASSWORD } = process.env;
 
 module.exports = {
   development: {
     username: DB_USERNAME,
     password: DB_PASSWORD,
     database: "angular_tasks",
-    host: DB_HOST,
-    port: 5431,
+    host: "127.0.0.1",
+    port: 3333,
     dialect: "postgres"
   },
   test: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
+    username: "postgres",
+    password: "secret",
     database: "angular_tasks",
-    host: DB_HOST,
-    port: 5431,
+    host: "127.0.0.1",
+    port: 3333,
     dialect: "postgres"
   },
   production: {
-    username: DB_USERNAME,
-    password: DB_PASSWORD,
+    username: "postgres",
+    password: "secret",
     database: "angular_tasks",
-    host: DB_HOST,
-    port: 5431,
+    host: "127.0.0.1",
+    port: 3333,
     dialect: "postgres"
   }
 };

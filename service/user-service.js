@@ -44,31 +44,34 @@ class UserService {
   }
 
   async logout(refreshToken) {
-    // const token = await tokenService.removeToken(refreshToken);
-    // return token;
+    const token = await tokenService.removeToken(refreshToken);
+    return token;
   }
 
   async refresh(refreshToken) {
-    // if (!refreshToken) {
-    //   throw ApiError.UnauthorizedError();
-    // }
-    // const userData = tokenService.validateRefreshToken(refreshToken);
-    // const tokenFromDb = await tokenService.findToken(refreshToken);
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
+    }
+    const userData = tokenService.validateRefreshToken(refreshToken);
+    const tokenFromDb = await tokenService.findToken(refreshToken);
 
-    // if (!userData || !tokenFromDb) {
-    //   throw ApiError.UnauthorizedError();
-    // }
+    if (!userData || !tokenFromDb) {
+      throw ApiError.UnauthorizedError();
+    }
 
-    // const user = await UserModel.findOne({ where: { id: userData.id } });
+    const user = await UserModel.findOne({ where: { id: userData.id } });
 
-    // const userDto = new UserDto(user);
-    // const tokens = tokenService.generateTokens({ ...userDto });
+    const userDto = new UserDto(user);
+    const tokens = tokenService.generateTokens({ ...userDto });
 
-    // await tokenService.saveToken(user, tokens.refreshToken);
-    // return { ...tokens, user: userDto };
+    await tokenService.saveToken(user.id, tokens.refreshToken);
+    return { ...tokens, user: userDto };
   }
 
-
+  async getAllUsers() {
+    const users = await UserModel.findAll();
+    return users;
+  }
 }
 
 module.exports = new UserService();

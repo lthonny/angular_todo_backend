@@ -10,9 +10,11 @@ class UserController {
         return next(ApiError.BadRequest('Eror validation', errors.array()));
       }
       const { name, email, password } = req.body;
-      const userData = await userService.sign_up(name, email, password);
-      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true })
 
+      console.log();
+
+      const userData = await userService.sign_up(name, email, password);
+      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, secure: false })
       return res.json(userData);
     } catch (e) {
       next(e);
@@ -23,7 +25,7 @@ class UserController {
     try {
       const { email, password } = req.body;
       const userData = await userService.sign_in(email, password);
-      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
+      res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false });
       return res.json(userData);
     } catch (e) {
       next(e);
@@ -35,7 +37,8 @@ class UserController {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
       res.clearCookie('refreshToken');
-      return res.json(token);
+      // return res.sendStatus(200);
+      return res.status(200).send({message: 'Updated successfully'});
     } catch (e) {
       next(e);
     }
@@ -45,14 +48,20 @@ class UserController {
     try {
       const { refreshToken } = req.cookies;
       const token = await userService.refresh(refreshToken);
-      res.clearCookie('refreshToken');
+      res.cookie('refreshToken', token.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false})
       return res.json(token);
-    } catch (e) {
+    } catch(e) {
       next(e);
     }
   }
 
   async getUsers(req, res, next) {
+    try {
+      const users = await userService.getAllUsers();
+      return res.json(users);
+    } catch(e) {
+      next(e);
+    }
   }
 }
 
