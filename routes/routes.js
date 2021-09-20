@@ -17,7 +17,9 @@ router.post('/api/sign_up',
 router.post('/api/sign_in', userController.sign_in);
 router.post('/api/logout', userController.logout);
 router.get('/api/refresh', userController.refresh);
-router.get('/api/users', authMiddleware, userController.getUsers);
+
+router.get('/api/isauth', authorize, modelPostgres.isauth);
+
 
 
 router.post('/api/create', authorize, modelPostgres.create);
@@ -26,6 +28,5 @@ router.get('/api/fetchAll', authorize, modelPostgres.fetchAll);
 router.put('/api/update/:id', authorize, modelPostgres.update);
 router.delete('/api/delete/:id', authorize, modelPostgres.delete);
 
-router.get('/api/isauth', authorize, modelPostgres.isauth);
 
 module.exports = router;

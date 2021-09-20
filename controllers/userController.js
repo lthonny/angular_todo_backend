@@ -37,8 +37,7 @@ class UserController {
       const { refreshToken } = req.cookies;
       const token = await userService.logout(refreshToken);
       res.clearCookie('refreshToken');
-      // return res.sendStatus(200);
-      return res.status(200).send({message: 'Updated successfully'});
+      return res.status(200).send({message: 'Complete cleaning'});
     } catch (e) {
       next(e);
     }
@@ -50,15 +49,6 @@ class UserController {
       const token = await userService.refresh(refreshToken);
       res.cookie('refreshToken', token.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: false, secure: false})
       return res.json(token);
-    } catch(e) {
-      next(e);
-    }
-  }
-
-  async getUsers(req, res, next) {
-    try {
-      const users = await userService.getAllUsers();
-      return res.json(users);
     } catch(e) {
       next(e);
     }

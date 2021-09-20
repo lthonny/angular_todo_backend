@@ -78,9 +78,9 @@ const ModelPostgresql = {
 
   async isauth(req, res, next) {
     try {
-      return res.status(200).end();
+      return res.sendStatus(204);
     } catch(e) {
-      return next(new Error(e));
+      next(e);
     }
   }
 }
